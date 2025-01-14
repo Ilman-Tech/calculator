@@ -1,71 +1,71 @@
-import tkinter as tk
-from tkinter import messagebox
+# Function to add two numbers
+def add_number(a, b):
+    return a + b
 
-# Create the main application window
-root = tk.Tk()
-root.title('Calculator')  # Set the title of the window
-root.geometry('300x420')  # Set the dimensions of the window
-root.resizable(False, False)  # Prevent resizing of the window
+# Function to subtract the second number from the first number
+def subtract(a, b):
+    return a - b
 
-# Create an entry widget for displaying and entering numbers and expressions
-entry = tk.Entry(root, font=("Arial", 14), bd=5, relief=tk.SUNKEN, justify="right")
-entry.grid(column=0, row=0, columnspan=4, padx=5, pady=5)
+# Function to multiply two numbers
+def multiply(a, b):
+    return a * b
 
-# Define the calculator buttons and their positions in the grid
-buttons = [
-    ("7", 2, 0), ("8", 2, 1), ("9", 2, 2), ("/", 2, 3),
-    ("4", 3, 0), ("5", 3, 1), ("6", 3, 2), ("*", 3, 3),
-    ("1", 4, 0), ("2", 4, 1), ("3", 4, 2), ("-", 4, 3),
-    ("0", 5, 0), (".", 5, 1), ("=", 5, 2), ("+", 5, 3)
-]
-
-# Function to calculate the entered expression
-def calculate():
-    try:
-        # Evaluate the entered expression and display the result
-        global result
-        result = eval(entry.get())
-        entry.delete(0, tk.END)
-        entry.insert(tk.END, str(result))
-    except Exception:
-        # Show an error message if the input is invalid
-        messagebox.showerror("Error", "Invalid input")
-
-# Function to append a value to the entry field
-def append_value(value):
-    entry.insert(tk.END, value)
-
-# Function to clear the entire entry field
-def clear_btn():
-    entry.delete(0, tk.END)
-
-# Function to delete the last character from the entry field
-def backspcae():
-    currter_text = entry.get()
-    if currter_text:
-        entry.delete(len(currter_text) - 1, tk.END)
-
-# Create the "Clear" button to clear the entry field
-clear = tk.Button(root, text="C", command=clear_btn, font=("Arial", 14), width=10, height=2)
-clear.grid(column=0, row=1, columnspan=2, padx=5, pady=5)
-
-# Create the "Backspace" button to remove the last character
-back = tk.Button(root, text="◀", font=("Arial", 14), command=backspcae, width=10, height=2)
-back.grid(column=2, row=1, columnspan=2, padx=5, pady=5)
-
-# Function to create number and operator buttons
-def create_btn(text, row, col):
-    if text == '=':
-        # Button for calculating the result
-        btn = tk.Button(root, text=text, command=calculate, font=("Arial", 14), width=5, height=2)
+# Function to divide the first number by the second number
+# Returns an error message if the second number is zero
+def divide(a, b):
+    if b != 0:
+        return a / b
     else:
-        # Other buttons to append values to the entry field
-        btn = tk.Button(root, text=text, command=lambda: append_value(text), font=("Arial", 14), width=5, height=2)
-    btn.grid(row=row, column=col, padx=5, pady=5, columnspan=1)
+        return "Division by zero is not allowed!"
 
-# Create buttons based on the "buttons" list
-for (text, row, col) in buttons:
-    create_btn(text, row, col)
+# Main loop to keep the calculator running until the user exits
+while True:
+    # Display the available operations to the user
+    print("\nChoose an operation:")
+    print("1. + (Addition)")
+    print("2. - (Subtraction)")
+    print("3. * (Multiplication)")
+    print("4. / (Division)")
+    print("5. Exit")
+    
+    # Get the user's operation choice
+    operation = input("Enter your operation (1/2/3/4/5): ")
 
-# Start the main event loop
-root.mainloop()
+    # Exit the program if the user chooses '5'
+    if operation == '5':
+        print("Goodbye!")
+        break
+
+    # Check if the user has selected a valid operation
+    if operation not in ['1', '2', '3', '4']:
+        print("Invalid selection! Please choose a valid operation.")
+        continue
+
+    # Get two numbers from the user, ensuring they are valid numeric inputs
+    try:
+        a = float(input("Enter the first number: "))
+        b = float(input("Enter the second number: "))
+    except ValueError:
+        print("Invalid input! Please enter numeric values.")
+        continue
+
+    # Perform the chosen operation
+    if operation == '1':
+        result = add_number(a, b)
+    elif operation == '2':
+        result = subtract(a, b)
+    elif operation == '3':
+        result = multiply(a, b)
+    elif operation == '4':
+        result = divide(a, b)
+        
+    # Display the result of the operation
+    print("The result is:", result)
+
+    # Ask the user if they want to calculate again
+    repeat = input("Do you want to calculate again (yes/no)? ").lower()
+
+    # If the user does not want to continue, exit the program
+    if repeat != 'yes':
+        print("Goodbye!")
+        break
